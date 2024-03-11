@@ -2,10 +2,83 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
+}
+
+// Category Model with: id: integer (PK), name: string
+model Category {
+    id         Int             @id @default(autoincrement())
+    name       String
+    gifts      Gift[]
+    attributes GiftAttribute[]
+    features   GiftFeature[]
+}
+
+// GIft Model with: id: integer (PK), name: string, category: integer (FK), description: string NULL, price: number
+model Gift {
+    id          Int             @id @default(autoincrement())
+    name        String
+    categoryId  Int
+    category    Category        @relation(fields: [categoryId], references: [id])
+    providerId  Int
+    provider    Provider        @relation(fields: [providerId], references: [id])
+    description String?
+    price       Float
+    items       Gift_GiftItem[]
+    attributes  GiftAttribute[]
+    features    GiftFeature[]
+
+    @@index([categoryId, providerId, name(sort: Asc)])
+}
+
+// Providers Model with id integer and name string, with array of gifts
+model Provider {
+    id    Int    @id @default(autoincrement())
+    name  String
+    gifts Gift[]
+}
+
+//GiftItem model with id: integer (PK) name: string price: number NULL and Gift_GiftItem model relating the two tables 
+model GiftItem {
+    id             Int             @id @default(autoincrement())
+    name           String
+    price          Float?
+    gift_giftItems Gift_GiftItem[]
+}
+
+//Gift_GiftItem model with id: integer (PK) giftId: integer (FK) giftItemId: integer (FK) and defaultItem: boolean
+model Gift_GiftItem {
+    giftId     Int
+    gift       Gift     @relation(fields: [giftId], references: [id])
+    giftItemId Int
+    giftItem   GiftItem @relation(fields: [giftItemId], references: [id])
+    optional   Boolean
+
+    @@unique([giftId, giftItemId])
+    @@index([giftId])
+    @@index([giftItemId])
+}
+
+// GiftAttribute model with id: integer (PK) name: string and category: integer (FK)
+model GiftAttribute {
+    id         Int      @id @default(autoincrement())
+    name       String
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    gifts      Gift[]
+}
+
+// GiftFeature model just like GiftAttribute
+model GiftFeature {
+    id         Int      @id @default(autoincrement())
+    name       String
+    categoryId Int
+    Category   Category @relation(fields: [categoryId], references: [id])
+    gifts      Gift[]
 }
