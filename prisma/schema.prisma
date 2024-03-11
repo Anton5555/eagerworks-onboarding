@@ -28,6 +28,7 @@ model Gift {
     items       Gift_GiftItem[]
     attributes  GiftAttribute[]
     features    GiftFeature[]
+    images      String[]
 
     @@index([categoryId, providerId, name(sort: Asc)])
 }
