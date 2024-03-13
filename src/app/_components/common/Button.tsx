@@ -3,7 +3,7 @@ import { Spinner } from "./Spiner";
 import { cn } from "~/app/lib/utils";
 
 const buttonClasses = {
-  primary: "bg-gradient-to-tr from-[#0F58B7] to-[#62D9FF]",
+  primary: "bg-gradient-to-tr from-blue to-lightBlue",
   outline: "outline-button",
 };
 
@@ -27,7 +27,7 @@ const Button = React.forwardRef<
         className={cn(
           [buttonClasses[variant]],
           className,
-          " w-full rounded-md border-none py-1 font-medium uppercase tracking-tight text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50",
+          " focus:ring-blue-500 w-full rounded-md border-none py-1 font-medium uppercase tracking-tight text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50",
         )}
         ref={ref}
         disabled={isLoading}
