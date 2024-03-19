@@ -14,7 +14,8 @@ export const giftRouter = createTRPCRouter({
         attributes: z.array(z.number()).optional(),
         features: z.array(z.number()).optional(),
         text: z.string().optional(),
-        sort: z.string(),
+        sortProp: z.string(),
+        sortDirection: z.string(),
         // cursor: z.number().nullish(),
         // limit: z.number().min(1).max(100).default(10),
       }),
@@ -69,7 +70,7 @@ export const giftRouter = createTRPCRouter({
           AND: filters,
         },
         orderBy: {
-          [input.sort]: "asc",
+          [input.sortProp]: input.sortDirection,
         },
         include: {
           provider: true,
@@ -102,4 +103,25 @@ export const giftRouter = createTRPCRouter({
       },
     }),
   ),
+
+  getAttributesAndFeaturesByCategoryId: privateProcedure
+    .input(
+      z.object({
+        categoryId: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return {
+        attributes: await ctx.db.giftAttribute.findMany({
+          where: {
+            categoryId: input.categoryId,
+          },
+        }),
+        features: await ctx.db.giftFeature.findMany({
+          where: {
+            categoryId: input.categoryId,
+          },
+        }),
+      };
+    }),
 });
