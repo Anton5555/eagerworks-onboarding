@@ -38,9 +38,7 @@ export default async function Page({
   console.log(sortDirection);
 
   const { attributes: attributesForCategory, features: featuresForCategory } =
-    await api.gift.getAttributesAndFeaturesByCategoryId.query({
-      categoryId: 1,
-    });
+    await api.gift.getAttributesAndFeaturesByCategoryId.query(1);
 
   const calculateRating = (reviews: Review[]) => {
     if (reviews.length === 0) return 0;
