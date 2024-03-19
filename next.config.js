@@ -5,6 +5,13 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    images: {
+        remotePatterns: [{ hostname: "img.clerk.com", protocol: "https", port: '' }, {
+            hostname: "qvbvnzsylsrqblspbczi.supabase.co", protocol: "https", port: ''
+        }
+        ]
+    },
+};
 
 export default config;

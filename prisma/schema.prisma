@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -10,11 +8,65 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Category {
+    id         Int             @id @default(autoincrement())
+    name       String
+    gifts      Gift[]
+    attributes GiftAttribute[]
+    features   GiftFeature[]
+}
 
-    @@index([name])
+model Gift {
+    id          Int             @id @default(autoincrement())
+    name        String
+    categoryId  Int
+    category    Category        @relation(fields: [categoryId], references: [id])
+    providerId  Int
+    provider    Provider        @relation(fields: [providerId], references: [id])
+    description String?
+    price       Float
+    items       GiftItem[]
+    attributes  GiftAttribute[]
+    features    GiftFeature[]
+    images      String[]
+    reviews     Review[]
+
+    @@index([categoryId, providerId, name(sort: Asc)])
+}
+
+model Provider {
+    id    Int    @id @default(autoincrement())
+    name  String
+    gifts Gift[]
+}
+
+model GiftItem {
+    id    Int    @id @default(autoincrement())
+    name  String
+    price Float?
+    gifts Gift[]
+}
+
+model GiftAttribute {
+    id         Int      @id @default(autoincrement())
+    name       String
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    gifts      Gift[]
+}
+
+model GiftFeature {
+    id         Int      @id @default(autoincrement())
+    name       String
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    gifts      Gift[]
+}
+
+model Review {
+    id       Int     @id @default(autoincrement())
+    giftId   Int
+    gift     Gift    @relation(fields: [giftId], references: [id])
+    rating   Float
+    feedback String?
 }
