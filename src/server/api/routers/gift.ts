@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  privateProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const giftRouter = createTRPCRouter({
   getFiltered: privateProcedure
@@ -105,21 +101,18 @@ export const giftRouter = createTRPCRouter({
   ),
 
   getAttributesAndFeaturesByCategoryId: privateProcedure
-    .input(
-      z.object({
-        categoryId: z.number(),
-      }),
-    )
+    .input(z.number())
     .query(async ({ ctx, input }) => {
       return {
         attributes: await ctx.db.giftAttribute.findMany({
           where: {
-            categoryId: input.categoryId,
+            categoryId: input,
           },
         }),
+
         features: await ctx.db.giftFeature.findMany({
           where: {
-            categoryId: input.categoryId,
+            categoryId: input,
           },
         }),
       };
