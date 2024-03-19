@@ -30,14 +30,18 @@ const Header: React.FC = () => {
       </nav>
       <div className="flex items-center justify-between px-16 py-4">
         <Logo width={96} height={34} />
+
         <div className="flex md:hidden">{/* Menu opening button */}Menu</div>
+
         <div className="hidden md:flex md:w-1/2">
           {/* TODO: Ubicar searchbar en mobile y modificar íconos e inputs */}
           <SearchBar />
         </div>
+
         <div className="hidden md:flex">
           <div className="flex gap-6">
             <Notifications />
+
             <ProfileButton />
           </div>
         </div>

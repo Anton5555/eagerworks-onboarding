@@ -6,25 +6,21 @@ const Checkbox = React.forwardRef<
     label: string;
     autoFocus?: boolean;
   } & React.InputHTMLAttributes<HTMLInputElement>
->(({ autoFocus = true, label, ...rest }, ref) => {
-  return (
-    <>
-      <div>
-        <label className="text-sm font-normal">
-          <input
-            autoFocus={autoFocus}
-            className="mr-2 p-2"
-            ref={ref}
-            type="checkbox"
-            {...rest}
-          />
-          {label}
-        </label>
-      </div>
-    </>
-  );
-});
+>(({ autoFocus = true, label, ...rest }, ref) => (
+  <div>
+    <label className="text-sm font-normal">
+      <input
+        autoFocus={autoFocus}
+        className="mr-2 p-2"
+        ref={ref}
+        type="checkbox"
+        {...rest}
+      />
+      {label}
+    </label>
+  </div>
+));
 
 Checkbox.displayName = "Checkbox";
 
-export { Checkbox };
+export default Checkbox;

@@ -1,13 +1,13 @@
 "use client";
+
 import React from "react";
-import { Button } from "./Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import FilterButton from "./FilterButton";
 
 interface Filter {
   id: number;
   name: string;
 }
-
 interface FiltersContainerProps {
   filters: Filter[];
   filterType: string;
@@ -44,21 +44,19 @@ const FiltersContainer: React.FC<FiltersContainerProps> = ({
     router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
+  const filterActive = (id: number) =>
+    searchParams.get(filterType)?.split(",").includes(id.toString());
+
   return (
-    <div>
+    <div className="flex flex-row gap-6">
       {filters.map(({ id, name }) => (
-        <Button
+        <FilterButton
           key={id}
-          type="button"
-          variant={
-            searchParams.get(filterType)?.split(",").includes(id.toString())
-              ? "primary"
-              : "outline"
-          }
           onClick={() => setFilter(id)}
+          active={filterActive(id)}
         >
           {name}
-        </Button>
+        </FilterButton>
       ))}
     </div>
   );

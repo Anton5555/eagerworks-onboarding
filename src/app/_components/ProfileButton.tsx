@@ -39,9 +39,12 @@ const ProfileButton: React.FC = () => {
                 width={44}
                 height={44}
               />
+
               <div>
                 <span className="text-lg font-medium">{user.fullName}</span>
+
                 <br />
+
                 <PopoverTrigger asChild>
                   <Link
                     href={"#"}
@@ -62,9 +65,12 @@ const ProfileButton: React.FC = () => {
                       <span className="inline-block bg-gradient-to-tr from-blue to-lightBlue bg-clip-text text-lg font-medium leading-tight text-transparent">
                         1300
                       </span>
+
                       <br />
+
                       <span className="font-light leading-tight">Puntos</span>
                     </div>
+
                     <div className="flex items-end font-light leading-tight text-blue">
                       <Link href={""}>Ver más</Link>
                     </div>
@@ -78,6 +84,7 @@ const ProfileButton: React.FC = () => {
                       >
                         {data.label}
                       </Link>
+
                       <div className="my-2 border-b-[0.5px] border-black"></div>
                     </div>
                   ))}
@@ -88,6 +95,7 @@ const ProfileButton: React.FC = () => {
                   >
                     Ayuda
                   </Link>
+
                   <div className="my-2 border-b-[0.5px] border-black"></div>
 
                   <Link

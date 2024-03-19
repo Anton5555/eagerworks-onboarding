@@ -4,10 +4,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../../_components/common/Input";
-import { H4 } from "../../_components/common/H4";
-import { Checkbox } from "../../_components/common/Checkbox";
-import { Button } from "../../_components/common/Button";
+import Input from "../../_components/common/Input";
+import H4 from "../../_components/common/H4";
+import Checkbox from "../../_components/common/Checkbox";
+import Button from "../../_components/common/Button";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,7 @@ const loginFormSchema = z.object({
   rememberLoginData: z.coerce.boolean(),
 });
 
-export default function Page() {
+const Page = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
 
@@ -73,10 +73,12 @@ export default function Page() {
     <div className="flex w-11/12 flex-col gap-8 pt-2 md:w-3/4 md:justify-center">
       <div>
         <H4>¡Hola, otra vez!</H4>
+
         <p className="pt-3 text-lg leading-5 tracking-tight">
           Por favor, confirma tu información para ingresar a Plan IT
         </p>
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("email")}
@@ -84,6 +86,7 @@ export default function Page() {
           placeholder="Email"
           errorText={errors.email?.message}
         />
+
         <Input
           {...register("password")}
           type="password"
@@ -95,6 +98,7 @@ export default function Page() {
           {...register("rememberLoginData")}
           label="Recordar mi información"
         />
+
         <Button
           variant="primary"
           className="mt-16"
@@ -108,4 +112,6 @@ export default function Page() {
       <button type="button">Register</button>
     </div>
   );
-}
+};
+
+export default Page;

@@ -16,28 +16,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
   rating,
   providerName,
   price,
-}) => {
-  return (
-    <div className="m-2 rounded-md bg-white">
-      <Image
-        src={imageUrl ?? "/default-food.png"}
-        alt={productName}
-        width={210}
-        height={150}
-      />
-      <div className="flex flex-col p-2">
-        <div className="flex flex-row justify-between">
-          <h3 className="w-3/4 font-medium">{productName}</h3>
-          <div className="flex w-1/4 justify-end">
-            <span>{rating}</span>
-            <StarIcon />
-          </div>
+}) => (
+  <div className="m-2 rounded-md bg-white">
+    <Image
+      src={imageUrl ?? "/default-food.png"}
+      alt={productName}
+      width={210}
+      height={150}
+    />
+
+    <div className="flex flex-col p-2">
+      <div className="flex flex-row justify-between">
+        <h3 className="w-3/4 font-medium">{productName}</h3>
+
+        <div className="flex w-1/4 justify-end">
+          <span>{rating}</span>
+
+          <StarIcon />
         </div>
-        <p className="provider-name">{providerName}</p>
-        <p className="price">${price}</p>
       </div>
+
+      <p className="provider-name">{providerName}</p>
+
+      <p className="price">${price}</p>
     </div>
-  );
-};
+  </div>
+);
 
 export default ProductCard;

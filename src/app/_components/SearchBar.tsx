@@ -12,11 +12,9 @@ const SearchBar: React.FC = () => {
 
   const handleTextSearch = (text: string) => {
     const params = new URLSearchParams(searchParams);
-    if (text) {
-      params.set("query", text);
-    } else {
-      params.delete("query");
-    }
+
+    if (text) params.set("query", text);
+    else params.delete("query");
 
     router.replace(`${pathname}?${params.toString()}`);
   };
@@ -32,7 +30,9 @@ const SearchBar: React.FC = () => {
           className="bg-lightGray text-right focus-visible:outline-none"
           placeholder="Food Box"
         />
+
         <span className="px-4 text-sm font-light text-[#444343]">|</span>
+
         <input
           type="text"
           className="bg-lightGray focus-visible:outline-none"
@@ -44,6 +44,7 @@ const SearchBar: React.FC = () => {
         {/* <div className="filters-button absolute left-0">
           <FiltersIcon />
         </div> */}
+
         <div className="absolute -top-4 right-0.5">
           <SearchIcon />
         </div>

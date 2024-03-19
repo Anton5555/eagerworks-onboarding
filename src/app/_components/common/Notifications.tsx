@@ -15,6 +15,7 @@ const notifications = [
     message: "Rosina Cataldo canjeó su código!",
   },
 ];
+
 const Notifications: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,16 +34,19 @@ const Notifications: React.FC = () => {
           <NotificationsIcon unreadNotifications={unreadNotifications} />
         </button>
       </PopoverTrigger>
+
       <PopoverContent className="w-60">
         <div className="flex flex-col">
           {notifications.map((notification, index) => (
             <div key={index}>
               <div className="flex flex-row items-center">
                 <GiftIcon />
+
                 <p className="ml-2 text-sm font-light leading-tight text-black">
                   {notification.message}
                 </p>
               </div>
+
               {index !== notifications.length - 1 && (
                 <div className="my-2 border-b-[0.5px] border-black"></div>
               )}
