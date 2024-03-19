@@ -71,16 +71,15 @@ const ProfileButton: React.FC = () => {
                   </div>
                   <div className="my-2 border-b-[0.5px] border-black"></div>
                   {profileMenu.map((data, index) => (
-                    <>
+                    <div key={index}>
                       <Link
-                        key={index}
                         href={data.href}
                         className="flex flex-row text-sm font-light leading-tight text-black transition-all duration-200 ease-in-out hover:text-blue"
                       >
                         {data.label}
                       </Link>
                       <div className="my-2 border-b-[0.5px] border-black"></div>
-                    </>
+                    </div>
                   ))}
                   <Link
                     key={"help"}

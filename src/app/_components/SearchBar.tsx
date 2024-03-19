@@ -1,14 +1,34 @@
+"use client";
+
 import React from "react";
-import FiltersIcon from "./icons/filters-icon";
-import SearchIcon from "./icons/search-icon";
+import FiltersIcon from "./icons/filters";
+import SearchIcon from "./icons/search";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SearchBar: React.FC = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleTextSearch = (text: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (text) {
+      params.set("query", text);
+    } else {
+      params.delete("query");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <div className="flex h-10 w-full items-center justify-between rounded-3xl border border-gray bg-lightGray">
       <div className="flex w-full justify-center placeholder:text-[#444343] ">
         {/* TODO: change placeholder according to category */}
         <input
           type="text"
+          onChange={(e) => handleTextSearch(e.target.value)}
+          defaultValue={searchParams.get("query")?.toString()}
           className="bg-lightGray text-right focus-visible:outline-none"
           placeholder="Food Box"
         />

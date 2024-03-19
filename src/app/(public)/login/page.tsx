@@ -4,10 +4,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../_components/common/Input";
-import { H4 } from "../_components/common/H4";
-import { Checkbox } from "../_components/common/Checkbox";
-import { Button } from "../_components/common/Button";
+import { Input } from "../../_components/common/Input";
+import { H4 } from "../../_components/common/H4";
+import { Checkbox } from "../../_components/common/Checkbox";
+import { Button } from "../../_components/common/Button";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 

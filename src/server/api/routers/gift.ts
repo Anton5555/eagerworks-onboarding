@@ -7,24 +7,41 @@ import {
 } from "~/server/api/trpc";
 
 export const giftRouter = createTRPCRouter({
-  getGifts: privateProcedure
+  getFiltered: privateProcedure
     .input(
       z.object({
         category: z.number(),
-        attributes: z.array(z.number()),
-        features: z.array(z.number()),
-        text: z.string(),
+        attributes: z.array(z.number()).optional(),
+        features: z.array(z.number()).optional(),
+        text: z.string().optional(),
         sort: z.string(),
-        skip: z.number(),
-        take: z.number(),
+        // cursor: z.number().nullish(),
+        // limit: z.number().min(1).max(100).default(10),
       }),
     )
     .query(async ({ ctx, input }) => {
-      return ctx.db.gift.findMany({
-        where: {
-          categoryId: {
-            equals: input.category,
-          },
+      const filters = [];
+      // const { cursor, limit } = input;
+      filters.push({
+        categoryId: {
+          equals: input.category,
+        },
+      });
+
+      if (input.text) {
+        filters.push(
+          ...[
+            {
+              name: {
+                search: input.text,
+              },
+            },
+          ],
+        );
+      }
+
+      if (input.attributes!.length > 0) {
+        filters.push({
           attributes: {
             some: {
               id: {
@@ -32,6 +49,11 @@ export const giftRouter = createTRPCRouter({
               },
             },
           },
+        });
+      }
+
+      if (input.features!.length > 0) {
+        filters.push({
           features: {
             some: {
               id: {
@@ -39,45 +61,45 @@ export const giftRouter = createTRPCRouter({
               },
             },
           },
-          AND: [
-            {
-              name: {
-                contains: input.text,
-              },
-            },
-            {
-              description: {
-                contains: input.text,
-              },
-            },
-          ],
+        });
+      }
+
+      const gifts = await ctx.db.gift.findMany({
+        where: {
+          AND: filters,
         },
         orderBy: {
           [input.sort]: "asc",
         },
         include: {
           provider: true,
+          reviews: true,
         },
-        skip: input.skip,
-        take: input.take,
+        // cursor: cursor ? { id: cursor } : undefined,
+        // take: limit + 1,
       });
+
+      // let nextCursor: typeof cursor | undefined = undefined;
+
+      // if (gifts.length > limit) {
+      //   const nextItem = gifts.pop()!;
+
+      //   nextCursor = nextItem.id;
+      // }
+
+      return gifts;
+      // nextCursor,
     }),
 
-  getGiftById: privateProcedure
-    .input(z.number())
-    .query(async ({ ctx, input }) => {
-      return ctx.db.gift.findUnique({
-        where: {
-          id: input,
-        },
-        include: {
-          provider: true,
-          items: {
-            include: {
-              giftItem: true,
-            },
-          },
-        },
-      });
+  getById: privateProcedure.input(z.number()).query(({ ctx, input }) =>
+    ctx.db.gift.findUnique({
+      where: {
+        id: input,
+      },
+      include: {
+        provider: true,
+        items: true,
+      },
     }),
+  ),
 });

@@ -1,8 +1,7 @@
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { TRPCError, initTRPC } from "@trpc/server";
-import { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import superjson from "superjson";
 import { ZodError } from "zod";
+import superjson from "superjson";
 
 import { db } from "~/server/db";
 
@@ -18,15 +17,12 @@ import { db } from "~/server/db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  const { req } = _opts;
-
-  const sesh = getAuth(req);
-
-  const userId = sesh.userId;
+export const createTRPCContext = async (_opts: { headers: Headers }) => {
+  const { userId }: { userId: string | null } = auth();
   return {
     db,
     userId,
+    ..._opts,
   };
 };
 

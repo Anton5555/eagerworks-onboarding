@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import NotificationsIcon from "../icons/notifications-icon";
+import NotificationsIcon from "../icons/notifications";
 import { Popover, PopoverTrigger, PopoverContent } from "./Popover";
-import GiftIcon from "../icons/gift-icon";
+import GiftIcon from "../icons/gift";
 
 const notifications = [
   {
@@ -36,8 +36,8 @@ const Notifications: React.FC = () => {
       <PopoverContent className="w-60">
         <div className="flex flex-col">
           {notifications.map((notification, index) => (
-            <>
-              <div key={index} className="flex flex-row items-center">
+            <div key={index}>
+              <div className="flex flex-row items-center">
                 <GiftIcon />
                 <p className="ml-2 text-sm font-light leading-tight text-black">
                   {notification.message}
@@ -46,7 +46,7 @@ const Notifications: React.FC = () => {
               {index !== notifications.length - 1 && (
                 <div className="my-2 border-b-[0.5px] border-black"></div>
               )}
-            </>
+            </div>
           ))}
         </div>
       </PopoverContent>

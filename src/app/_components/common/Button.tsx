@@ -3,8 +3,10 @@ import { Spinner } from "./Spiner";
 import { cn } from "~/app/lib/utils";
 
 const buttonClasses = {
-  primary: "bg-gradient-to-tr from-blue to-lightBlue",
-  outline: "outline-button",
+  primary:
+    "bg-gradient-to-tr from-blue to-lightBlue font-medium uppercase text-white border-none",
+  outline:
+    "bg-transparent outline-1 outline-black text-black hover:bg-blue hover:text-white ",
 };
 
 const Button = React.forwardRef<
@@ -12,7 +14,7 @@ const Button = React.forwardRef<
   {
     variant: "primary" | "outline";
     type: "submit" | "button";
-    className: string;
+    className?: string;
     children: React.ReactNode;
     isLoading?: boolean;
   } & React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -27,7 +29,7 @@ const Button = React.forwardRef<
         className={cn(
           [buttonClasses[variant]],
           className,
-          " focus:ring-blue-500 w-full rounded-md border-none py-1 font-medium uppercase tracking-tight text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50",
+          " focus:ring-blue-500 w-full rounded-md  py-1  tracking-tight transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:opacity-50",
         )}
         ref={ref}
         disabled={isLoading}

@@ -25,10 +25,11 @@ model Gift {
     provider    Provider        @relation(fields: [providerId], references: [id])
     description String?
     price       Float
-    items       Gift_GiftItem[]
+    items       GiftItem[]
     attributes  GiftAttribute[]
     features    GiftFeature[]
     images      String[]
+    reviews     Review[]
 
     @@index([categoryId, providerId, name(sort: Asc)])
 }
@@ -40,22 +41,10 @@ model Provider {
 }
 
 model GiftItem {
-    id             Int             @id @default(autoincrement())
-    name           String
-    price          Float?
-    gift_giftItems Gift_GiftItem[]
-}
-
-model Gift_GiftItem {
-    giftId     Int
-    gift       Gift     @relation(fields: [giftId], references: [id])
-    giftItemId Int
-    giftItem   GiftItem @relation(fields: [giftItemId], references: [id])
-    optional   Boolean
-
-    @@unique([giftId, giftItemId])
-    @@index([giftId])
-    @@index([giftItemId])
+    id    Int    @id @default(autoincrement())
+    name  String
+    price Float?
+    gifts Gift[]
 }
 
 model GiftAttribute {
@@ -70,6 +59,14 @@ model GiftFeature {
     id         Int      @id @default(autoincrement())
     name       String
     categoryId Int
-    Category   Category @relation(fields: [categoryId], references: [id])
+    category   Category @relation(fields: [categoryId], references: [id])
     gifts      Gift[]
+}
+
+model Review {
+    id       Int     @id @default(autoincrement())
+    giftId   Int
+    gift     Gift    @relation(fields: [giftId], references: [id])
+    rating   Float
+    feedback String?
 }
